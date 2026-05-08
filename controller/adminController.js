@@ -4,8 +4,6 @@ import Order from '../models/orderModel.js';
 import Review from '../models/reviewModel.js';
 import AppError from '../utils/appError.js';
 
-
-
 export const adminPage = async (req, res, next) => {
   try {
     const [totalOrders, pendingOrders, doneOrders, totalRevenueResult] =
@@ -84,7 +82,9 @@ export const offerPage = async (req, res, next) => {
 export const orderPage = async (req, res, next) => {
   try {
     const orders = await Order.find({}).sort({ createdAt: -1 });
-    const totalpay = await Order.find({ statusPayment: 'paid' }).sort({ createdAt: -1 });
+    const totalpay = await Order.find({ statusPayment: 'paid' }).sort({
+      createdAt: -1,
+    });
 
     res.status(200).render('admin/orders', {
       title: 'Orders',
@@ -95,7 +95,6 @@ export const orderPage = async (req, res, next) => {
     return next(new AppError('Error fetching orders', 404));
   }
 };
-
 
 // cashier Page -----------------------------------------------------------------------------------
 export const cashierPage = async (req, res, next) => {
@@ -115,10 +114,10 @@ export const cashierPage = async (req, res, next) => {
 // pay Page -----------------------------------------------------------------------------------
 export const payPage = async (req, res, next) => {
   try {
-const orders = await Order.find({
-  statusPayment: 'no',
-  status: 'done',
-});
+    const orders = await Order.find({
+      statusPayment: 'no',
+      status: 'done',
+    });
 
     res.status(200).render('admin/pay', {
       title: 'pay',
@@ -132,5 +131,5 @@ const orders = await Order.find({
 // AllReviews -----------------------------------------------------------------------------------
 export const AllReviews = async (req, res) => {
   const reviews = await Review.find({}).sort({ createdAt: -1 });
-  res.render('admin/AllReviews', { reviews , title: 'All Reviews' });
+  res.render('admin/AllReviews', { reviews, title: 'All Reviews' });
 };

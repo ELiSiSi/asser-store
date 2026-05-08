@@ -67,7 +67,6 @@ const orderSchema = new mongoose.Schema(
       enum: ['no', 'paid'],
       default: 'no',
     },
-
   },
   {
     timestamps: true,
